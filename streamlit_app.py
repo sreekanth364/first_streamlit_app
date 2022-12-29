@@ -32,16 +32,15 @@ fruit_choice = streamlit.text_input('What fruit would you like information about
 if not fruit_choice:
     streamlit.error("Please select a fruit to get information.")
 else:
-    # import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-    # take the json version of the reponse and normalise it
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-# Output it to the screen as table
-streamlit.dataframe(fruityvice_normalized)
-streamlit.write('The user entered ', fruit_choice)
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    streamlit.dataframe(fruityvice_normalized)
+
+    
 
 except URLError as e:
   streamlit.error()
+
 
 # don't tun anything past here while we troubleshoot
 streamlit.stop()
@@ -52,6 +51,7 @@ my_cur.execute("select * from fruit_load_list")
 my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
+streamlit.write('The user entered ', fruit_choice)
 
 
 add_my_fruit = streamlit.text_input('What fruit would you like information about?','jackfruit')
